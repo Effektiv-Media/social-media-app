@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import 'multer';
 import { makeId } from '@gitroom/nestjs-libraries/services/make.is';
 import mime from 'mime-types';
@@ -120,6 +120,15 @@ class CloudflareStorage implements IUploadProvider {
     //   Key: fileName,
     // });
     // await this._client.send(command);
+  }
+
+  async getFile(path: string): Promise<any> {
+    const command = new GetObjectCommand({
+      Bucket: this._bucketName,
+      Key: path,
+    });
+
+    return await this._client.send(command);
   }
 }
 

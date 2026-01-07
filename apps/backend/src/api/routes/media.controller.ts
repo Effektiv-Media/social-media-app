@@ -40,6 +40,18 @@ export class MediaController {
     return this._mediaService.deleteMedia(org.id, id);
   }
 
+  @Get('/proxy/*')
+  async getProxy(@Req() req: Request, @Res() res: Response) {
+    const key = req.params[0];
+    const file = await this.storage.getFile(key);
+    if (!file) {
+      return res.status(404).send('Not Found');
+    }
+
+    res.setHeader('Content-Type', file.ContentType);
+    file.Body.pipe(res);
+  }
+
   @Post('/generate-video')
   generateVideo(
     @GetOrgFromRequest() org: Organization,

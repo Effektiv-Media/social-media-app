@@ -59,7 +59,7 @@ export class LocalStorage implements IUploadProvider {
       )}`;
 
       // Logic to save the file to the filesystem goes here
-      writeFileSync(filePath, file.buffer);
+      writeFileSync(filePath, file.buffer as any);
 
       return {
         filename: `${randomName}${extname(file.originalname)}`,
@@ -84,5 +84,9 @@ export class LocalStorage implements IUploadProvider {
         }
       });
     });
+  }
+
+  async getFile(path: string): Promise<any> {
+    return null;
   }
 }
